@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { submitContactForm } from './actions';
 import { 
   EnvelopeSimple, 
@@ -18,12 +18,6 @@ import {
 export default function Home() {
   const formRef = useRef(null);
   const [status, setStatus] = useState(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   async function handleAction(formData) {
     setStatus('submitting');
     const result = await submitContactForm(formData);
@@ -34,9 +28,6 @@ export default function Home() {
       formRef.current?.reset();
     }
   }
-
-  // Prevent hydration mismatch for client-only elements
-  if (!mounted) return null;
 
   return (
     <>
@@ -74,7 +65,7 @@ export default function Home() {
               <EnvelopeSimple size={28} weight="duotone" />
             </a>
             <a href="#contact" className="link-item connect-btn">
-              Let's Connect <ArrowRight size={24} weight="bold" />
+              Let&apos;s Connect <ArrowRight size={24} weight="bold" />
             </a>
           </div>
         </section>
@@ -89,7 +80,7 @@ export default function Home() {
                 <span className="date">Nov 2021 - Present</span>
                 <h3>Project Manager</h3>
                 <h4>ZK Construction Pvt. Ltd.</h4>
-                <p>Managing projects, organizing the company's profile, executing planning, and improving internal systems.</p>
+                <p>Managing projects, organizing the company&apos;s profile, executing planning, and improving internal systems.</p>
               </div>
               
               <div className="card">
@@ -151,11 +142,11 @@ export default function Home() {
 
         {/* Contact Section with Database Form */}
         <section id="contact" className="section">
-          <h2 className="section-title">Let's Build <span className="gradient-text">Something.</span></h2>
+          <h2 className="section-title">Let&apos;s Build <span className="gradient-text">Something.</span></h2>
           <div className="grid-2">
             <div>
               <p style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: '1.6' }}>
-                Whether it's mastering strategic planning or managing unexpected challenges, I am ready. Drop me a message and it will be saved directly to my database.
+                Whether it&apos;s mastering strategic planning or managing unexpected challenges, I am ready. Drop me a message and it will be saved directly to my database.
               </p>
             </div>
 
