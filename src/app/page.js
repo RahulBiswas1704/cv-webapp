@@ -1,10 +1,9 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { submitContactForm } from './actions';
 import { 
   EnvelopeSimple, 
-  Phone, 
   ArrowRight,
   FacebookLogo,
   TwitterLogo,
@@ -12,12 +11,18 @@ import {
   GithubLogo,
   LinkedinLogo,
   DiscordLogo,
-  RedditLogo
+  RedditLogo,
+  PaperPlaneRight
 } from '@phosphor-icons/react';
 
 export default function Home() {
   const formRef = useRef(null);
   const [status, setStatus] = useState(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   async function handleAction(formData) {
     setStatus('submitting');
@@ -30,6 +35,9 @@ export default function Home() {
     }
   }
 
+  // Prevent hydration mismatch for client-only elements
+  if (!mounted) return null;
+
   return (
     <>
       <div className="bg-animation"></div>
@@ -37,36 +45,36 @@ export default function Home() {
         
         {/* Hero Section */}
         <section className="hero">
-          <h1>Rahul <span>Biswas.</span></h1>
+          <h1>Rahul <span className="gradient-text">Biswas.</span></h1>
           <p>Driven by a passion for technology and a flair for communication. I thrive on continuous growth, solving problems, and exploring innovative solutions.</p>
           
           <div className="links-hub">
             <a href="https://github.com/rahulbiswas1704" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="GitHub">
-              <GithubLogo size={24} />
+              <GithubLogo size={28} weight="duotone" />
             </a>
             <a href="https://www.linkedin.com/in/rahulbiswas1704?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="LinkedIn">
-              <LinkedinLogo size={24} />
+              <LinkedinLogo size={28} weight="duotone" />
             </a>
             <a href="https://x.com/rahulbiswas1704?t=Jk63uAOFdYyqS_tLwU5Q0w&s=09" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="Twitter / X">
-              <TwitterLogo size={24} />
+              <TwitterLogo size={28} weight="duotone" />
             </a>
             <a href="https://www.instagram.com/rahulbiswas1704?igsh=MWx1Y2o0bDZwdmZscg==" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="Instagram">
-              <InstagramLogo size={24} />
+              <InstagramLogo size={28} weight="duotone" />
             </a>
             <a href="https://www.facebook.com/rahulbiswas1704?mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="Facebook">
-              <FacebookLogo size={24} />
+              <FacebookLogo size={28} weight="duotone" />
             </a>
             <a href="https://discord.com/invite/qC5mG5SjYc" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="Discord">
-              <DiscordLogo size={24} />
+              <DiscordLogo size={28} weight="duotone" />
             </a>
             <a href="https://www.reddit.com/u/rahulbiswas1704/s/mO07QWd4S8" target="_blank" rel="noopener noreferrer" className="link-item" aria-label="Reddit">
-              <RedditLogo size={24} />
+              <RedditLogo size={28} weight="duotone" />
             </a>
             <a href="mailto:rahul.biswas1704@gmail.com" className="link-item">
-              <EnvelopeSimple size={24} />
+              <EnvelopeSimple size={28} weight="duotone" />
             </a>
-            <a href="#contact" className="link-item" style={{ background: 'var(--text-primary)', color: 'var(--bg-color)' }}>
-              Let's Connect <ArrowRight size={24} />
+            <a href="#contact" className="link-item connect-btn">
+              Let's Connect <ArrowRight size={24} weight="bold" />
             </a>
           </div>
         </section>
@@ -116,7 +124,7 @@ export default function Home() {
           <h2 className="section-title">Skills & Expertise</h2>
           <div className="grid-2">
             <div>
-              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', color: 'var(--accent)' }}>Technical Skills</h3>
+              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.8rem', color: 'var(--text-primary)' }}>Technical Skills</h3>
               <div className="skills-container">
                 <span className="skill-tag">PC Hardware</span>
                 <span className="skill-tag">Microsoft Office</span>
@@ -128,7 +136,7 @@ export default function Home() {
             </div>
             
             <div>
-              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.5rem', color: 'var(--accent)' }}>Professional & Personal</h3>
+              <h3 style={{ marginBottom: '1.5rem', fontSize: '1.8rem', color: 'var(--text-primary)' }}>Professional & Personal</h3>
               <div className="skills-container">
                 <span className="skill-tag">Business Planning</span>
                 <span className="skill-tag">Managing Teams</span>
@@ -143,10 +151,10 @@ export default function Home() {
 
         {/* Contact Section with Database Form */}
         <section id="contact" className="section">
-          <h2 className="section-title">Let's Build Something.</h2>
+          <h2 className="section-title">Let's Build <span className="gradient-text">Something.</span></h2>
           <div className="grid-2">
             <div>
-              <p style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+              <p style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '2rem', lineHeight: '1.6' }}>
                 Whether it's mastering strategic planning or managing unexpected challenges, I am ready. Drop me a message and it will be saved directly to my database.
               </p>
             </div>
@@ -164,11 +172,15 @@ export default function Home() {
                 </div>
                 
                 <button type="submit" className="btn-submit" disabled={status === 'submitting'}>
-                  {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                  {status === 'submitting' ? 'Sending...' : (
+                    <>
+                      Send Message <PaperPlaneRight size={24} weight="fill" />
+                    </>
+                  )}
                 </button>
 
-                {status === 'success' && <p style={{ color: '#10b981', marginTop: '1rem', fontSize: '1.1rem' }}>Message saved successfully!</p>}
-                {status === 'error' && <p style={{ color: '#ef4444', marginTop: '1rem', fontSize: '1.1rem' }}>Failed to send message. Please try again.</p>}
+                {status === 'success' && <p style={{ color: '#10b981', marginTop: '1rem', fontSize: '1.1rem', fontWeight: '500' }}>Message saved successfully!</p>}
+                {status === 'error' && <p style={{ color: '#ef4444', marginTop: '1rem', fontSize: '1.1rem', fontWeight: '500' }}>Failed to send message. Please try again.</p>}
               </form>
             </div>
           </div>
